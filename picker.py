@@ -3,8 +3,11 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QDialog
 from PyQt5 import uic, QtCore, QtGui, QtWidgets, QtMultimedia as M
 from PyQt5.QtCore import QThread, pyqtSignal, QObject, QRunnable, pyqtSlot, QThreadPool
 
-# set the UI file to use
-Ui_MainWindow, QtBaseClass = uic.loadUiType("random_picker.ui")
+# Handle high resolution displays:
+# if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
+#     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+# if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
+#     QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
 # Signals class that will store a signal. Basically it will send the results from my Thread thread
 class Signals(QObject):
@@ -17,7 +20,7 @@ class Signals(QObject):
 class Thread(QRunnable):
 
     def __init__(self, topics):
-        super(Thread, self).__init__()     
+        super(Thread, self).__init__()    
         self.signal = Signals()    
         self.topics = topics
 
@@ -62,6 +65,7 @@ class MyApp(QMainWindow):
 
     def __init__(self):
         super(MyApp, self).__init__()
+        Ui_MainWindow, QtBaseClass = uic.loadUiType("random_picker.ui") 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
